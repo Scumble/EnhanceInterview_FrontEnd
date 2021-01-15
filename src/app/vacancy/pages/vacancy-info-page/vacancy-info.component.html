@@ -1,0 +1,10 @@
+<div class="mt-4 mb-4" *ngIf="vacancy != null">
+	<h1><strong>{{vacancy.title}}</strong></h1>
+	<p><span class="fas fa-map-marker"></span> {{vacancy.location}}</p>
+	<p><span class="fas fa-building"></span> {{vacancy.companyName}}</p>
+	<p><span class="fas fa-calendar-plus-o"></span> Creation date: {{vacancy.startDate | date: 'dd/MM/yyyy'}}</p>
+	<p><span class="fas fa-calendar-times-o"></span> End date: {{vacancy.endDate | date: 'dd/MM/yyyy'}}</p>
+	<div [innerHTML]="vacancy.info"></div>
+	<button class="btn btn-primary mr-2" (click)="applyToVacancy()" *ngIf="roles.isApplicant && interview == null">Apply</button>
+	<button class="btn btn-outline-secondary" routerLink="/vacancies" *ngIf="roles.isApplicant && interview == null">Cancel</button>
+</div>

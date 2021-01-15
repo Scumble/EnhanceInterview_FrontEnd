@@ -1,0 +1,21 @@
+<div class="mt-4">
+	<div class="card">
+		<h4 class="card-header">Fill the reject reason</h4>
+		<div class="card-body">
+			<form [formGroup]="interviewForm" (ngSubmit)="onSubmit()">
+				<div class="form-group">
+					<label>Reject reason:</label>
+					<textarea class="form-control" formControlName="rejectReason" [ngClass]="{ 'is-invalid': submitted && f.rejectReason.errors }"></textarea>
+					<div *ngIf="submitted && f.rejectReason.errors" class="invalid-feedback">
+						<div *ngIf="f.rejectReason.errors.required">Reject Reason is required</div>
+					</div>
+				</div>
+				<div>
+					<button class="btn btn-primary mr-2">Reject</button>
+					<button class="btn btn-outline-secondary" routerLink="/interviews">Cancel</button>
+				</div>
+				<div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+			</form>
+		</div>
+	</div>
+</div>

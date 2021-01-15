@@ -1,0 +1,51 @@
+<a href="javascript:void(0)" (click)="showCodeEditor()" *ngIf="!isCodeEditorVisible">Switch to the code editor</a>
+<a href="javascript:void(0)" (click)="hideCodeEditor()" *ngIf="isCodeEditorVisible">Switch to the chat</a>
+<div class="bootstrap snippet" *ngIf="!isCodeEditorVisible">
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<div class="portlet portlet-default" style="width: 340px;">
+				<div class="portlet-heading">
+					<div class="portlet-title">
+						<h4><i class="fa fa-circle text-green"></i> {{userName}}</h4>
+					</div>
+					<div class="portlet-widgets">
+						<span class="divider"></span>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div id="chat" class="panel-collapse">
+					<div>
+					<div class="portlet-body chat-widget" style="overflow-y: auto; width: auto; height: 300px;">
+						<div class="row" *ngIf="messages.length > 0">
+							<div class="col-lg-12" *ngFor="let message of messages;">
+								<div class="media">
+									<div class="media-body">
+										<strong class="media-heading">{{message.userName}}
+											<span class="small pull-right">{{message.sendTime | date: 'h:mm:ss a'}}</span>
+										</strong>
+										<p>{{message.message}}</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<hr>
+					</div>
+					</div>
+					<div class="portlet-footer">
+						<form role="form" (ngSubmit)="sendMessage(); messageForm.reset()" #messageForm="ngForm">
+							<div class="form-group">
+								<textarea class="form-control" placeholder="Enter message..." [(ngModel)]="message" name="message" required></textarea>
+							</div>
+							<div class="form-group">
+								<button type="submit" class="btn btn-default pull-right" [disabled]="!messageForm.valid">Send</button>
+								<div class="clearfix"></div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<ngx-monaco-editor [options]="editorOptions" [(ngModel)]="chatSignalRService.codeText" (keyup)="chatSignalRService.updateCodeEditor(roomName)" *ngIf="isCodeEditorVisible"></ngx-monaco-editor>
+

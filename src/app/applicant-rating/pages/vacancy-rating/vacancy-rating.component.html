@@ -1,0 +1,22 @@
+<h1 *ngIf="!ratingList">There is no rating for this vacancy yet</h1>
+<table class="table" *ngIf="ratingList">
+	<thead>
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">Applicant Id</th>
+			<th scope="col">Applicant Name</th>
+			<th scope="col">Estimation</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let rating of pageOfItems; let i = index;">
+			<th scope="row">{{i + 1}}</th>
+			<td><a href="javascript:void(0)" [routerLink]="['/applicant', rating.applicantId]">{{rating.applicantId}}</a></td>
+			<td><a href="javascript:void(0)" [routerLink]="['/applicant', rating.applicantId]">{{rating.applicantName}}</a></td>
+			<td>{{rating.estimationSum}}</td>
+		</tr>
+	</tbody>
+</table>
+<div class="d-flex justify-content-center mt-4">
+	<pagination [pageSize]="10" [items]="ratingList" (changePage)="onChangePage($event)"></pagination>
+</div>

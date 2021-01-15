@@ -1,0 +1,47 @@
+<div class="mt-4 d-flex justify-content-between align-items-baseline" style="position: relative;">
+	<div>
+		<input type="text" id="searchField" [ngModel]="searchTerm" style="width: 250px" (ngModelChange)="search($event)"/>
+		<span class="fas fa-search" style="position: absolute; left: 224px; top: 6px"></span>
+	</div>
+	<div>
+		<label>Status: </label>&nbsp;
+		<select [(ngModel)]="selectedStatus" (ngModelChange)="onStatusChange($event)">
+			<option value="">None</option>
+			<option value="Applied">Applied</option>
+			<option value="Accepted">Accepted</option>
+			<option value="Waiting for applicant accept">Waiting for applicant accept</option>
+			<option value="Rejected">Rejected</option>
+			<option value="Completed">Completed</option>
+		</select>
+	</div>
+</div>
+<div class="mt-4" *ngIf="interviews && interviews.length === 0">
+		<h1>There are no interviews.</h1>
+</div>
+<div class="card mt-4" *ngFor="let interview of pageOfItems">
+	<div class="card-header">
+		<h5 *ngIf="!roles.isApplicant"><a [routerLink]="['/applicant/', interview.applicantId]">Applicant №{{interview.applicantId}}</a></h5>
+	</div>
+	<div class="card-body">
+		<div>
+			<div class="d-flex justify-content-end float-right">
+				<button type="button" *ngIf="enableAcceptButton(interview)" class="btn btn-outline-success mr-2" [routerLink]="['/accept/', interview.id]">Accept</button>
+				<button type="button" *ngIf="enableRejectButton(interview)" class="btn btn-outline-danger mr-2" [routerLink]="['/reject/', interview.id]">Reject</button>
+				<button type="button" class="btn btn-outline-primary" *ngIf="enableCreateInterviewButton(interview)" [routerLink]="['/create-video-conference/', interview.id]">+ Create interview</button>
+				<button type="button" class="btn btn-outline-success mr-2" *ngIf="enableEndInterviewButton(interview)" (click)="endInterview(interview.id)"><span class="fas fa-check" aria-hidden="true"></span> End interview</button>
+				<button type="button" class="btn btn-outline-primary" *ngIf="enableEnterInterviewButton(interview)" [routerLink]="['/video-conference/', interview.id, interview.interviewRoom]"><span class="fas fa-sign-in-alt" aria-hidden="true"></span> Enter interview</button>
+				<button type="button" class="btn btn-outline-primary mr-2" *ngIf="enableViewResultsButton(interview)" [routerLink]="['/results/interview/', interview.id]"><span class="fas fa-eye"></span> View results</button>
+				<button type="button" class="btn btn-outline-primary" *ngIf="enableViewResultsButton(interview)" [routerLink]="['/feedbacks/interview/', interview.id]"><span class="fas fa-inbox"></span> View feedbacks</button>
+			</div>
+		</div>
+		<h5 class="card-title"><a [routerLink]="['/vacancies/', interview.vacancyId]">{{interview.vacancyTitle}}</a></h5>
+		<p class="card-text">Applicant apply date: {{interview.applyDate | date: 'dd/MM/yyyy HH:mm'}}</p>
+		<p class="card-text" *ngIf="interview.status !== 'Rejected' && interview.interviewDate !== null">Interview Date: {{interview.interviewDate | date: 'dd/MM/yyyy HH:mm'}}</p>
+		<p class="card-text" *ngIf="interview.status === 'Rejected' && interview.rejectDate !== null">Reject Date: {{interview.rejectDate | date: 'dd/MM/yyyy HH:mm'}}</p>
+		<p class="card-text" *ngIf="interview.status === 'Rejected' && interview.rejectReason !== null">Reject reason: {{interview.rejectReason}}</p>
+		<p class="card-text">Status: {{interview.status}}</p>
+	</div>
+</div>
+<div class="d-flex justify-content-center mt-4">
+	<pagination [pageSize]="3" [items]="interviews" (changePage)="onChangePage($event)"></pagination>
+</div>

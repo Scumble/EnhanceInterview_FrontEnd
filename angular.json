@@ -24,13 +24,17 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
+              { "glob": "**/*", "input": "node_modules/ngx-monaco-editor/assets/monaco", "output": "./assets/monaco/" },
               "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
+              "node_modules/ngx-toastr/toastr.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -88,10 +92,12 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
+              { "glob": "**/*", "input": "node_modules/ngx-monaco-editor/assets/monaco", "output": "./assets/monaco/" },
               "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
+              "node_modules/ngx-toastr/toastr.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -123,6 +129,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "FrontEnd"
+    }
+  },
+  "defaultProject": "FrontEnd",
+  "cli": {
+    "analytics": false
+  }
 }

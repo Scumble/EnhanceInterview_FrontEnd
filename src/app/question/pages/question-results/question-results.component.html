@@ -1,0 +1,51 @@
+<div class="mt-4 d-flex justify-content-between" style="position: relative;">
+	<input type="text" id="searchField" [ngModel]="searchTerm" style="width: 250px; height: 30px" (ngModelChange)="search($event)"/>
+	<span class="fas fa-search" style="position: absolute; left: 224px; top: 6px"></span>
+	<div>
+		<label>Complexity: </label>&nbsp;
+		<select [(ngModel)]="selectedComplexity" class="mr-2" (ngModelChange)="onComplexityChange($event)">
+			<option value="">None</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+		</select>
+		<label>Category: </label>&nbsp;
+		<select [(ngModel)]="selectedCategory" (ngModelChange)="onCategoryChange($event)">
+			<option value="">None</option>
+			<option value="Technical">Technical</option>
+			<option value="Psychological">Psychological</option>
+			<option value="HR">HR</option>
+		</select>
+	</div>
+</div>
+<div class="mt-4" *ngIf="questionResults && questionResults.length === 0">
+	<h1>There are no questions for this vacancy.</h1>
+</div>
+<div id="panelSteps" class="panel panel-default mt-5">
+	<ol class="item-steps list-group">
+		<li class="list-group-item mb-2" *ngFor="let questionResult of pageOfItems" [ngbTooltip]="tooltipContent" placement="top">
+			<div class="d-flex justify-content-between">
+				<div class="d-flex">
+					<span>{{questionResult.questionId}}.</span>&nbsp;
+					<h6 [innerHTML]="questionResult.content"></h6>
+				</div>
+				<div>
+					<bar-rating [(rate)]="questionResult.estimation" [readOnly]="true" [max]="5"></bar-rating>
+				</div>
+			</div>
+			<ng-template #tooltipContent>
+				<div>
+					<p>Category: {{questionResult.category}}</p>
+					<p>Type: {{questionResult.type}}</p>
+					<p>Complexity: {{questionResult.complexity}}</p>
+					<p>Estimation: {{questionResult.estimation}}</p>
+				</div>
+			</ng-template>
+		</li>
+	</ol>
+</div>
+<div class="d-flex justify-content-center mt-4">
+	<pagination [pageSize]="5" [items]="questionResults" (changePage)="onChangePage($event)"></pagination>
+</div>

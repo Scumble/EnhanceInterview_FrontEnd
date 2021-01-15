@@ -1,0 +1,87 @@
+<div class="card" style="width: 500px">
+	<div class="card-header">
+		<ul class="nav nav-tabs card-header-tabs" *ngIf="!roles.isApplicant">
+			<li class="nav-item" *ngIf="roles.isDeveloper || roles.isTeamLead">
+				<a class="nav-link">Technical</a>
+			</li>
+			<li class="nav-item" *ngIf="roles.isPsychologist">
+				<a class="nav-link">Psychological</a>
+			</li>
+			<li class="nav-item" *ngIf="roles.isHR">
+				<a class="nav-link">HR</a>
+			</li>
+		</ul>
+		<ul class="nav nav-tabs card-header-tabs" *ngIf="roles.isApplicant">
+			<li class="nav-item">
+				<a class="nav-link" (click)="getQuestions('Technical', searchTerm, $event,selectedComplexity)">Technical</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" (click)="getQuestions('Psychological', searchTerm, $event, selectedComplexity)">Psychological</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" (click)="getQuestions('HR', searchTerm, $event, selectedComplexity)">HR</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link active" (click)="getQuestions('', searchTerm, $event, selectedComplexity)">All</a>
+			</li>
+		</ul>
+	</div>
+	<div class="card-body">
+		<div class="mb-2 d-flex justify-content-between" style="position: relative;">
+			<input type="text" id="searchField" [ngModel]="searchTerm" style="width: 250px; height: 30px" (ngModelChange)="search($event)"/>
+			<span class="fas fa-search" style="position: absolute; left: 224px; top: 6px"></span>
+			<div>
+				<label>Complexity: </label>&nbsp;
+				<select [(ngModel)]="selectedComplexity" (ngModelChange)="onComplexityChange($event)">
+					<option value="">None</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</div>
+		</div>
+		<div class="mt-4" *ngIf="questions && questions.length === 0">
+			<h6>There are no questions for this vacancy.</h6>
+		</div>
+		<div class="scrollable">
+			<ul class="list-group checked-list-box">
+				<form [formGroup]="answerForm" (ngSubmit)="onSubmit()">
+					<li class="list-group-item" *ngFor="let question of questions" [ngbTooltip]="tooltipContent" placement="left">
+						<div class="d-flex align-items-baseline">
+							<span>{{question.id}}.</span>&nbsp;
+							<h6 [innerHTML]="question.content"></h6>
+						</div>
+						<bar-rating *ngIf="!roles.isApplicant" class="form-control" formControlName="estimation" [max]="5" (rateChange)="setAnswerModel(question.vacancyQuestionId, $event)" [ngClass]="{ 'is-invalid': submitted && f.estimation.errors }"></bar-rating>
+						<div *ngIf="submitted && f.estimation.errors" class="invalid-feedback">
+							<div *ngIf="f.estimation.errors.required">Estimation is required</div>
+						</div>
+						<ng-template #tooltipContent>
+							<div>
+								<p>Category: {{question.category}}</p>
+								<p>Type: {{question.type}}</p>
+								<p>Complexity: {{question.complexity}}</p>
+							</div>
+						</ng-template>
+					</li>
+				<button type="submit" *ngIf="!roles.isApplicant" class="btn btn-primary mt-2" (click)="openModal('feedback')">Submit</button>
+			</form>
+		</ul>
+		<jw-modal id="feedback">
+			<h1>Please fill the feedback form!</h1>
+			<form [formGroup]="feedbackForm" (ngSubmit)="onFeedbackSubmit()">
+				<div class="alert alert-info" role="alert">
+					Please note! By submitting this form the video conference will be ended
+				</div>
+				<div class="form-group">
+					<label>Content:</label>
+					<ckeditor [editor]="Editor" (ready)="onReady($event)" formControlName="content"></ckeditor>
+				</div>
+				<button type="submit" class="btn btn-primary mr-2">Add</button>
+			</form>
+			<button class="btn btn-outline-secondary" style="position: absolute; top: 334px; left: 129px" (click)="closeModal('feedback');">Close</button>
+		</jw-modal>
+		</div>
+	</div>
+</div>

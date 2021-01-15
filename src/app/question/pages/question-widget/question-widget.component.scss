@@ -1,0 +1,13 @@
+.card {
+	width: 24%;
+	height: 500px;
+}
+
+.scrollable{
+	overflow-y: auto;
+	max-height: 380px;
+}
+
+:host ::ng-deep .ck-editor__editable_inline {
+	min-height: 400px;
+}

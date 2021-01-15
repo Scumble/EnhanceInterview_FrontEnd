@@ -1,0 +1,21 @@
+<div class="mt-4">
+	<div class="card">
+		<h4 class="card-header">Fill the interview date</h4>
+		<div class="card-body">
+			<form [formGroup]="interviewForm" (ngSubmit)="onSubmit()">
+				<div class="form-group">
+					<label>Interview date:</label>
+					<input type="datetime-local" [readonly]="roles.isApplicant" class="form-control" [min]="currentDate" formControlName="interviewDate" [ngClass]="{ 'is-invalid': submitted && f.interviewDate.errors }"/>
+					<div *ngIf="submitted && f.interviewDate.errors" class="invalid-feedback">
+						<div *ngIf="f.interviewDate.errors.required">Interview Date is required</div>
+					</div>
+				</div>
+				<div>
+					<button class="btn btn-primary mr-2">Accept</button>
+					<button class="btn btn-outline-secondary" routerLink="/interviews">Cancel</button>
+				</div>
+				<div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+			</form>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,78 @@
+<div class="col-md-6 offset-md-3 mt-5">
+	<div class="card" style="margin-bottom: 100px;">
+		<h4 class="card-header">Registration</h4>
+		<div class="card-body">
+			<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+				<div class="form-group">
+					<label for="firstName">First Name</label>
+					<input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+					<div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+						<div *ngIf="f.firstName.errors.required">First Name is required</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="lastName">Last Name</label>
+					<input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+					<div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+						<div *ngIf="f.lastName.errors.required">Last Name is required</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="login">Username</label>
+					<input type="text" formControlName="login" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.login.errors }" />
+					<div *ngIf="submitted && f.login.errors" class="invalid-feedback">
+						<div *ngIf="f.login.errors.required">Username is required</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="password">Password</label>
+					<input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+					<div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+						<div *ngIf="f.password.errors.required">Password is required</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input type="email" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+					<div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+						<div *ngIf="f.email.errors.required">Email is required</div>
+					</div>
+				</div>
+				<div *ngIf="isWorker">
+					<div class="form-group">
+						<label for="role">Role</label>
+						<select class="form-control" formControlName="role">
+							<option value="HR">HR</option>
+							<option value="Recruiter">Recruiter</option>
+							<option value="Psychologist">Psychologist</option>
+							<option value="Developer">Developer</option>
+							<option value="Team Lead">Team Lead</option>
+						</select>
+						<div *ngIf="submitted && f.role.errors" class="invalid-feedback">
+							<div *ngIf="f.role.errors.required">Role is required</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="companyName">Company Name</label>
+						<input type="text" formControlName="companyName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.companyName.errors }" />
+						<div *ngIf="submitted && f.companyName.errors" class="invalid-feedback">
+							<div *ngIf="f.companyName.errors.required">Company Name is required</div>
+						</div>
+					</div>
+				</div>
+				<div class="d-flex justify-content-between align-items-center">
+					<button [disabled]="loading" class="btn btn-primary">
+						<span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+						Register
+					</button>
+					<div class="d-flex flex-column">
+						<a *ngIf="!isWorker" href="javascript:void(0)" (click)="isWorker=true">Are you a worker?</a>
+						<a *ngIf="isWorker" href="javascript:void(0)" (click)="isWorker=false">Are you an applicant?</a>
+						<a class="float-right" href="/login">Already have an account?</a>
+					</div>
+				</div>
+				<div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+			</form>
+		</div>
+	</div>
+</div>

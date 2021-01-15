@@ -1,0 +1,5 @@
+<div class="mt-4 mb-4" *ngIf="company != null">
+	<h1><span class="fas fa-building"></span> <strong>{{company.name}}</strong></h1>
+	<p><span class="fas fa-map-marker"></span> {{company.location}}</p>
+	<div [innerHTML]="company.description"></div>
+</div>

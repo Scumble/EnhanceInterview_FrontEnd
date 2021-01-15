@@ -1,0 +1,32 @@
+<div class="mt-4 d-flex justify-content-between" style="position: relative;">
+	<input type="text" id="searchField" [ngModel]="searchTerm" style="width: 250px; height: 30px" (ngModelChange)="search($event)"/>
+	<span class="fas fa-search" style="position: absolute; left: 224px; top: 6px"></span>
+	<button *ngIf="roles.isRecruiter" type="button" routerLink="/vacancies/create" class="btn btn-outline-success"><span class="fas fa-plus"></span> Create</button>
+</div>
+	<div class="mt-4" *ngIf="vacancies && vacancies.length === 0">
+		<h1>There are no vacancies.</h1>
+	</div>
+	<div class="card mt-4" *ngFor="let vacancy of pageOfItems;let i = index;">
+	<div class="card-header">
+		<h5>Vacancy №{{vacancy.id}}</h5>
+	</div>
+	<div class="card-body">
+		<div class="d-flex justify-content-end float-right" *ngIf="roles.isRecruiter">
+			<button type="button" class="btn btn-outline-primary mr-2" [routerLink]="['/vacancies/edit/', vacancy.id]"><span class="fas fa-pencil-alt"></span> Edit</button>
+			<button type="button" class="btn btn-outline-danger" (click)="openDeletionDialog(vacancy.id)"><span class="fas fa-trash"></span> Delete</button>
+		</div>
+		<div class="d-flex justify-content-end float-right" *ngIf="!roles.isRecruiter && !roles.isApplicant">
+			<button type="button" class="btn btn-outline-success mr-2" [routerLink]="['/question/create/', vacancy.id]"><span class="fas fa-plus"></span> Create question</button>
+			<button type="button" class="btn btn-outline-primary" [routerLink]="['/question/vacancy/', vacancy.id]"><span class="fas fa-list-alt"></span> View all questions</button>
+			<button type="button" *ngIf="vacancy.interview != null && vacancy.interview.status === 'Completed'" class="btn btn-outline-primary pull-right ml-2" [routerLink]="['/vacancy-rating/', vacancy.id]"><span class="fas fa-star"></span> View rating</button>
+		</div>
+		<h5 class="card-title">{{vacancy.title}}</h5>
+		<p style="margin:0"><span class="fas fa-map-marker"></span> {{vacancy.location}}</p>
+		<span class="fas fa-building"></span>&nbsp;<a href="javascript:void(0)" [routerLink]="['/companies/', vacancy.companyId]">{{vacancy.companyName}}</a>
+		<p class="card-text"><span class="fas fa-calendar-plus"></span> Creation date: {{vacancy.startDate | date: 'dd/MM/yyyy'}}</p>
+		<a href="#" *ngIf="roles.isApplicant" class="btn btn-primary" [routerLink]="['/vacancies/', vacancy.id]">See detailed information >></a>
+	</div>
+</div>
+<div class="d-flex justify-content-center mt-4">
+	<pagination [pageSize]="3" [items]="vacancies" (changePage)="onChangePage($event)"></pagination>
+</div>

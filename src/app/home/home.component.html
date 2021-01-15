@@ -1,0 +1,8 @@
+﻿<div class="card mt-4">
+	<h4 class="card-header">Hello</h4>
+	<div class="card-body">
+		<div *ngIf="currentUser">
+			<p>Welcome, {{currentUser.firstName}} {{currentUser.lastName}} ({{currentUser.role}})</p>
+		</div>
+	</div>
+</div>

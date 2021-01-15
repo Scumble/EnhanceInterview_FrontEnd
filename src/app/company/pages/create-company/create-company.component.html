@@ -1,0 +1,32 @@
+<div class="mt-4">
+	<div class="card">
+		<h4 class="card-header">Create company</h4>
+		<div class="card-body">
+			<form [formGroup]="companyForm" (ngSubmit)="onSubmit()">
+				<div class="form-group">
+					<label>Company name:</label>
+					<input type="text" class="form-control" formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" placeholder="Enter company name here"/>
+					<div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+						<div *ngIf="f.name.errors.required">Company name is required</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label>Description:</label>
+					<ckeditor [editor]="Editor" (ready)="onReady($event)" formControlName="description"></ckeditor>
+				</div>
+				<div class="form-group">
+					<label>Location:</label>
+					<input type="text" class="form-control" formControlName="location" [ngClass]="{ 'is-invalid': submitted && f.location.errors }" placeholder="Enter location here"/>
+					<div *ngIf="submitted && f.location.errors" class="invalid-feedback">
+						<div *ngIf="f.location.errors.required">Location is required</div>
+					</div>
+				</div>
+				<div>
+					<button class="btn btn-primary mr-2">Create</button>
+					<button class="btn btn-outline-secondary" routerLink="/companies">Cancel</button>
+				</div>
+				<div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+			</form>
+		</div>
+	</div>
+</div>

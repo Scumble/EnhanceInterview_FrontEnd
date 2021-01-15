@@ -1,0 +1,39 @@
+<div class="mt-4">
+	<div class="card">
+		<h4 class="card-header">Create vacancy</h4>
+		<div class="card-body">
+			<form [formGroup]="vacancyForm" (ngSubmit)="onSubmit()">
+				<div class="form-group">
+					<label>Title:</label>
+					<input type="text" class="form-control" formControlName="title" [ngClass]="{ 'is-invalid': submitted && f.title.errors }" placeholder="Enter title here"/>
+					<div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+						<div *ngIf="f.title.errors.required">Title is required</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label>Description:</label>
+					<ckeditor [editor]="Editor" (ready)="onReady($event)" formControlName="info"></ckeditor>
+				</div>
+				<div class="form-group">
+					<label>Location:</label>
+					<input type="text" class="form-control" formControlName="location" [ngClass]="{ 'is-invalid': submitted && f.location.errors }" placeholder="Enter location here"/>
+					<div *ngIf="submitted && f.location.errors" class="invalid-feedback">
+						<div *ngIf="f.location.errors.required">Location is required</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label>End date:</label>
+					<input type="datetime-local" class="form-control" formControlName="endDate" [min]="currentDate" [ngClass]="{ 'is-invalid': submitted && f.endDate.errors }"/>
+					<div *ngIf="submitted && f.endDate.errors" class="invalid-feedback">
+						<div *ngIf="f.endDate.errors.required">End Date is required</div>
+					</div>
+				</div>
+				<div>
+					<button class="btn btn-primary mr-2">Create</button>
+					<button class="btn btn-outline-secondary" routerLink="/vacancies">Cancel</button>
+				</div>
+				<div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+			</form>
+		</div>
+	</div>
+</div>

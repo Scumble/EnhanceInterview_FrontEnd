@@ -1,0 +1,25 @@
+<div class="mt-4 d-flex justify-content-between" style="position: relative;">
+	<input type="text" id="searchField" [ngModel]="searchTerm" style="width: 250px; height: 30px" (ngModelChange)="search($event)"/>
+	<span class="fas fa-search" style="position: absolute; left: 224px; top: 6px"></span>
+	<button *ngIf="roles.isAdmin" type="button" routerLink="/companies/create" class="btn btn-outline-success"><span class="fas fa-plus"></span> Create</button>
+</div>
+	<div class="mt-4" *ngIf="companies && companies.length === 0">
+		<h1>There are no companies.</h1>
+	</div>
+	<div class="card mt-4" *ngFor="let company of pageOfItems">
+	<div class="card-header">
+		<h5>Company №{{company.id}}</h5>
+	</div>
+	<div class="card-body">
+		<div class="d-flex justify-content-end float-right">
+			<button type="button" class="btn btn-outline-primary mr-2" [routerLink]="['/companies/edit/', company.id]"><span class="fas fa-pencil-alt"></span> Edit</button>
+			<button type="button" class="btn btn-outline-danger" (click)="openDeletionDialog(company.id)"><span class="fas fa-trash"></span> Delete</button>
+		</div>
+		<h5 class="card-title">{{company.name}}</h5>
+		<p><span class="fas fa-map-marker"></span> {{company.location}}</p>
+		<a href="#" class="btn btn-primary" [routerLink]="['/companies/', company.id]">See detailed information >></a>
+	</div>
+</div>
+<div class="d-flex justify-content-center mt-4">
+	<pagination [pageSize]="3" [items]="companies" (changePage)="onChangePage($event)"></pagination>
+</div>

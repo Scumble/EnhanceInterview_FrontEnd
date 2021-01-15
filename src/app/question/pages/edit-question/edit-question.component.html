@@ -1,0 +1,49 @@
+<div class="mt-4 mb-4">
+	<div class="card">
+		<h4 class="card-header">Edit question to the vacancy</h4>
+		<div class="card-body">
+			<form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
+				<div class="form-group">
+					<label for="category">Category:</label>
+					<select class="form-control" disabled formControlName="category">
+						<option value="Technical">Technical</option>
+						<option value="Psychological">Psychological</option>
+						<option value="HR">HR</option>
+					</select>
+					<div *ngIf="submitted && f.category.errors" class="invalid-feedback">
+						<div *ngIf="f.category.errors.required">Category is required</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label>Type:</label>
+					<input type="text" class="form-control" formControlName="type" [ngClass]="{ 'is-invalid': submitted && f.type.errors }"/>
+					<div *ngIf="submitted && f.type.errors" class="invalid-feedback">
+						<div *ngIf="f.type.errors.required">Type is required</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="complexity">Complexity:</label>
+					<select class="form-control" formControlName="complexity">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+					</select>
+					<div *ngIf="submitted && f.complexity.errors" class="invalid-feedback">
+						<div *ngIf="f.complexity.errors.required">Complexity is required</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label>Content:</label>
+					<ckeditor [editor]="Editor" (ready)="onReady($event)" formControlName="content"></ckeditor>
+				</div>
+				<div>
+					<button class="btn btn-primary mr-2">Edit</button>
+					<button class="btn btn-outline-secondary" [routerLink]="['/question/vacancy/', vacancyId]">Cancel</button>
+				</div>
+				<div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+			</form>
+		</div>
+	</div>
+</div>

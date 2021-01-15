@@ -1,0 +1,8 @@
+<div class="videoWrap" style="border: 3px green;">
+	<video #videoPlayer autoplay="true" style="display: block"></video>
+	{{user.user.userName}}
+</div>
+<div class="d-flex justify-content-center mt-3 video-controls" *ngIf="isCurrentUser">
+	<span [ngClass]="[microphoneButtonClass]" class="mr-2 microphone" style="font-size: 25px;" (click)="muteMicrophone()"></span>
+	<span [ngClass]="[videoButtonClass]" style="font-size: 25px;" (click)="disableVideo()"></span>
+</div>

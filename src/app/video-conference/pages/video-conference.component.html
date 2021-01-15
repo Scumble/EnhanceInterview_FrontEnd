@@ -1,0 +1,14 @@
+<div *ngIf="rtcService.connected && !joined">
+	<h2 class="mb-3">Room name: {{roomName}}</h2>
+	<button class="btn btn-outline-primary" (click)="connect()">Connect</button>
+</div>
+<div *ngIf="joined">
+	<div class="d-flex justify-content-center video-controls">
+		<app-video #videoComponent *ngFor="let user of users; getUserConnectionId: getUserConnectionId" [user]="user" style="margin-left: 12px"></app-video>
+	</div>
+	<hr/>
+	<div class="d-flex justify-content-between">
+		<video-chat style="width: 1000px" [roomName]="roomName"></video-chat>
+		<question-widget [interviewId]="interviewId"></question-widget>
+	</div>
+</div>

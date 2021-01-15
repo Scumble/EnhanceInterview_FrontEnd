@@ -1,0 +1,13 @@
+<div class="mt-4" *ngIf="feedbacks && feedbacks.length === 0">
+		<h1>There are no feedbacks.</h1>
+</div>
+<div class="card mt-4" *ngFor="let feedback of pageOfItems">
+	<div class="card-body">
+		<h5 class="card-title" [innerHTML]="feedback.content"></h5>
+		<p>Vacancy: {{feedback.vacancyTitle}}</p>
+		<p class="card-text"><span class="fas fa-user"></span> {{feedback.firstName}} {{feedback.lastName}} ({{feedback.role}})</p>
+	</div>
+</div>
+<div class="d-flex justify-content-center mt-4">
+	<pagination [pageSize]="3" [items]="feedbacks" (changePage)="onChangePage($event)"></pagination>
+</div>

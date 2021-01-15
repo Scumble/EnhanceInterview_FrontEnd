@@ -1,0 +1,21 @@
+<div class="mt-4 mb-4" *ngIf="applicant != null">
+	<div class="card">
+		<h4 class="card-header">Applicant profile</h4>
+		<div class="card-body">
+			<div *ngIf="applicant.profileImgPath != null">
+				<label>Profile photo:</label>
+				<div>
+					<img [src]="createImagePath(applicant.profileImgPath)" alt="profile picture" style="width:300px; height:300px;"/>
+				</div>
+			</div>
+			<p>Full Name: {{applicant.firstName}} {{applicant.lastName}}</p>
+			<p *ngIf="applicant.information != null"><span class="fas fa-info-circle"></span>  Personal info: {{applicant.information}}</p>
+			<p *ngIf="applicant.experience != null">{{applicant.experience}}</p>
+			<p *ngIf="applicant.skills != null"><span class="fas fa-bolt"> </span> Job skills: {{applicant.skills}}</p>
+			<p *ngIf="applicant.education != null"><span class="fas fa-graduation-cap"></span> {{applicant.education}}</p>
+			<p *ngIf="applicant.birthDate != null"><span class="fas fa-birthday-cake"></span> {{applicant.birthDate | date: 'dd/MM/yyyy'}}</p>
+			<p *ngIf="applicant.email != null"><span class="fas fa-envelope"></span> {{applicant.email}}</p>
+			<p *ngIf="applicant.phoneNumber != null"><span class="fas fa-phone-square"></span> {{applicant.phoneNumber}}</p>
+		</div>
+	</div>
+</div>
